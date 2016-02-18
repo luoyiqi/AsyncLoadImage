@@ -1,25 +1,16 @@
 package ua.com.kistudio.asynctaskp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "AsyncLogs";
     public static final String IMAGE_URL = "http://cityfinder.esy.es/img/5.jpg";
+/*
 
      void loadImage(){
         Bitmap bm = null;
@@ -47,12 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+*/
+/*
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //loadImage();
+    void asyncLoadImage(){
         AsyncLoadImage asyncLoadImage = new AsyncLoadImage();
         asyncLoadImage.execute(IMAGE_URL);
         ImageView ivLoadedImage = (ImageView) findViewById(R.id.ivLoadImage);
@@ -66,5 +55,50 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+*/
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //loadImage();
+        //asyncLoadImage();
+
+        ListView lvImages = (ListView) findViewById(R.id.lvImages);
+        AsyncLoadImageArray asyncLoadImageArray = new AsyncLoadImageArray(this);
+        asyncLoadImageArray.execute("http://cityfinder.esy.es/img/1.jpg",
+                "http://cityfinder.esy.es/img/2.jpg",
+                "http://cityfinder.esy.es/img/3.jpg",
+                "http://cityfinder.esy.es/img/4.jpg",
+                "http://cityfinder.esy.es/img/5.jpg",
+                "http://cityfinder.esy.es/img/6.jpg",
+                "http://cityfinder.esy.es/img/7.jpg"
+                );
+        try {
+            MyAdapter myAdapter = new MyAdapter(this,asyncLoadImageArray.get());
+            lvImages.setAdapter(myAdapter);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        /*SimpleCursorAdapter simpleCursorAdapter = null;
+        try {
+            simpleCursorAdapter = new SimpleCursorAdapter(
+                    this,R.layout.item,asyncLoadImageArray.get(),
+                    new String[]{"image"},new int[]{R.id.ivItem},
+                    Adapter.NO_SELECTION);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        lvImages.setAdapter(simpleCursorAdapter);*/
+
+
     }
 }

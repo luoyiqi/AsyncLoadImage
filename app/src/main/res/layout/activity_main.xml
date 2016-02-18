@@ -12,9 +12,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvAdress"/>
 
+<!--
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivLoadImage"/>
+-->
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvImages">
+
+    </ListView>
 </RelativeLayout>
